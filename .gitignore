@@ -1,8 +1,8 @@
 *.h5
 *.pb
 *.so
+*.params
 demo/tf-mnist/data/
 build/
 node_modules/
 bagua-mxnet/lib/
-model-zoo/mxnet/*.params

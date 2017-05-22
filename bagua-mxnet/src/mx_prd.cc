@@ -132,30 +132,29 @@ NAN_METHOD(MPrd::create)
     auto self = Unwrap<MPrd>(info.This());
     auto params = __cxx_vec<int>(info[0]);
     const char *j = node::Buffer::Data(info[1]);
-    const char *p = node::Buffer::Data(info[2]);
+    const void *p = node::Buffer::Data(info[2]);
     auto l = node::Buffer::Length(info[2]);
 
     mx_uint num_input_nodes = 1;
-    const char *input_key[1] = {"data"};
-    const char **input_keys = input_key;
+    const char *input_name = "data";
+    const char *input_keys[1];
+    input_keys[0] = input_name;
     int width = params[0];
     int height = params[1];
     int channels = params[2];
     int dev_type = 1;
     int dev_id = 0;
-    const mx_uint input_shape_indptr[2] = {0, 4};
-    const mx_uint input_shape_data[4] = {1,
-                                         static_cast<mx_uint>(channels),
+    const mx_uint input_shape_indptr[] = {0, 4};
+    const mx_uint input_shape_data[] = {1,3,
                                          static_cast<mx_uint>(width),
                                          static_cast<mx_uint>(height)};
-    self->pred_hnd = 0;
 
     int x = MXPredCreate(j,
                          p,
-                         l,
+                         static_cast<int>(l),
                          dev_type,
                          dev_id,
-                         num_input_nodes,
+                         1,
                          input_keys,
                          input_shape_indptr,
                          input_shape_data,
@@ -244,7 +243,7 @@ NAN_METHOD(MPrd::run)
 
     std::vector<float> output(size);
 
-    MXPredGetOutput(self->pred_hnd, output_index, &(output[0]), size);
+    MXPredGetOutput(self->pred_hnd, output_index, output.data(), size);
 
     // Release NDList
     // if (self->nd_hnd)
