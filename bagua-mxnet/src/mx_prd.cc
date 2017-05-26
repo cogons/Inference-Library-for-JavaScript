@@ -113,6 +113,7 @@ NAN_MODULE_INIT(MPrd::Init)
     SetMethod(proto, "create", create);
     SetMethod(proto, "setInput", setInput);
     SetMethod(proto, "run", run);
+    SetMethod(proto, "close", close);
     ctor_instance_.Reset(ctor->GetFunction());
     Nan::Set(target, class_name(), ctor->GetFunction());
     
@@ -214,8 +215,15 @@ NAN_METHOD(MPrd::run)
     // if (self->nd_hnd)
     //     MXNDListFree(self->nd_hnd);
 
+
+    RETURN(__js(output));
+}
+
+NAN_METHOD(MPrd::close)
+{
+    Nan::HandleScope scope;
+    auto self = Unwrap<MPrd>(info.This());
     // Release Predictor
     MXPredFree(self->pred_hnd);
 
-    RETURN(__js(output));
 }
