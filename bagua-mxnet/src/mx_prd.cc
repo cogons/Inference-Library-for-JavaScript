@@ -1,5 +1,5 @@
 #include "mx.h"
-#include "opencv.h"
+#include "../../opencv/src/opencv.h"
 
 typedef unsigned int mx_uint;
 typedef float mx_float;
@@ -145,16 +145,16 @@ NAN_METHOD(MPrd::create)
     int dev_type = 1;
     int dev_id = 0;
     const mx_uint input_shape_indptr[] = {0, 4};
-    const mx_uint input_shape_data[] = {1,3,
+    const mx_uint input_shape_data[] = {1,static_cast<mx_uint>(channels),
                                          static_cast<mx_uint>(width),
                                          static_cast<mx_uint>(height)};
 
     int x = MXPredCreate(j,
                          p,
-                         static_cast<int>(l),
+                         l,
                          dev_type,
                          dev_id,
-                         1,
+                         num_input_nodes,
                          input_keys,
                          input_shape_indptr,
                          input_shape_data,
@@ -164,41 +164,6 @@ NAN_METHOD(MPrd::create)
     RETURN(x);
 }
 
-// NAN_METHOD(MPrd::readMean)
-// {
-//     Nan::HandleScope scope;
-//     auto self = Unwrap<MPrd>(info.This());
-
-//     // nd_hnd = self->nd_hnd;
-//     // nd_data = self->nd_data;
-
-//     // Read Mean Data
-//     self->nd_data = NULL;
-//     self->nd_hnd = 0;
-//     const char *nd_buf = node::Buffer::Data(info[0]);
-//     int nd_buf_length = node::Buffer::Length(info[0]);
-
-//     if (nd_buf_length > 0)
-//     {
-//         mx_uint nd_index = 0;
-//         mx_uint nd_len;
-//         const mx_uint *nd_shape = 0;
-//         const char *nd_key = 0;
-//         mx_uint nd_ndim = 0;
-
-//         MXNDListCreate(nd_buf,
-//                        nd_buf_length,
-//                        &self->nd_hnd, &nd_len);
-
-//         MXNDListGet(self->nd_hnd, nd_index, &nd_key, &self->nd_data, &nd_shape, &nd_ndim);
-//     }
-
-//     const mx_float *data;
-//     int width = 224;
-//     int height = 224;
-//     int channels = 3;
-//     int image_size = width * height * channels;
-// }
 
 NAN_METHOD(MPrd::setInput)
 {

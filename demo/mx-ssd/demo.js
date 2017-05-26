@@ -3,6 +3,7 @@
 var fs = require("fs");
 var mx = require('../../bagua-mxnet/src');
 var SSD = require("./ssd.js");
+var io = require('../io')
 
 var LABELS = ["aeroplane", "bicycle", "bird", "boat",
      "bottle", "bus", "car", "cat", "chair",
@@ -13,14 +14,14 @@ var LABELS = ["aeroplane", "bicycle", "bird", "boat",
 
 // load essentials
 
-var image = mx.io.loadImage("../images/dog.jpg", 3);
+var image = io.loadImage("../images/dog.jpg", 3);
 var json_file = fs.readFileSync("../../model-zoo/mxnet/ssd/deploy_ssd_300-symbol.json");
 var param_file = fs.readFileSync("../../model-zoo/mxnet/ssd/deploy_ssd_300-0000.params");
 var params = [300,300,3]
 
 // preprocess
 
-var transformer = new mx.io.Transformer(params);
+var transformer = new io.Transformer(params);
 var img = transformer.preprocess(image)
 
 
@@ -47,6 +48,6 @@ function show (blob) {
       img.rectangle(o.xmin, o.ymin, o.xmax, o.ymax);
     }
   });
-  mx.io.show("Result", img);
-  mx.io.waitKey();
+  io.show("Result", img);
+  io.waitKey();
 }

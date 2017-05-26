@@ -3,6 +3,7 @@ exports.parse = function (blob, image) {
   
   var f = new Float32Array(blob.data.buffer);
   var num_det = blob.shape[2];
+  //blob.shape.forEach(a=>console.log(a)) 1 1 90 7
   var out = [];
 
   for (var i = 0; i < num_det; i++) {

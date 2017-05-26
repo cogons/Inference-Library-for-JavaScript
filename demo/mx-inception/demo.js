@@ -1,9 +1,10 @@
 var fs = require("fs");
 var mx = require('../../bagua-mxnet/src');
+var io = require('../io')
 
 // load essentials
 
-var image = mx.io.loadImage("../images/dog.jpg", 3);
+var image = io.loadImage("../images/dog.jpg", 3);
 var json_file = fs.readFileSync("../../model-zoo/mxnet/inception/Inception-BN-symbol.json");
 var param_file = fs.readFileSync("../../model-zoo/mxnet/inception/Inception-BN-0126.params");
 var nd_file = fs.readFileSync("../../model-zoo/mxnet/inception/mean_224.nd");
@@ -11,7 +12,7 @@ var params = [224,224,3]
 
 // preprocess
 
-var transformer = new mx.io.Transformer(params);
+var transformer = new io.Transformer(params);
 transformer.setMeanValue(Array.prototype.slice.call(nd_file, 0)); // 0 ~ 255 => 0 ~ 1.0
 var img = transformer.preprocess(image)
 

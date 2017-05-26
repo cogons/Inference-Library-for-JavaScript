@@ -1,5 +1,4 @@
 #include "mx.h"
-#include "opencv.h"
 
 
 using v8::FunctionTemplate;
@@ -12,8 +11,6 @@ using v8::FunctionTemplate;
 NAN_MODULE_INIT(InitAll) {
   // Nan::Set(target, Nan::New("createPred").ToLocalChecked(),
   //   Nan::GetFunction(Nan::New<FunctionTemplate>(createPred)).ToLocalChecked());
-  Mat::Init(target);
-  IO::Init(target);
   MPrd::Init(target);
 
 }

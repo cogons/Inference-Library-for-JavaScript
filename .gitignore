@@ -2,6 +2,7 @@
 *.pb
 *.so
 *.params
+*.caffemodel
 demo/tf-mnist/data/
 build/
 node_modules/

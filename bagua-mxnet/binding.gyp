@@ -4,8 +4,7 @@
             "target_name": "mxnet",
             "sources": [
                 "src/mx.cc",
-                "src/mx_prd.cc",
-                "src/opencv.cc"],
+                "src/mx_prd.cc"],
             "include_dirs": [
                 "<!(node -e \"require('nan')\")",
                 '-L<!(pwd)/include'
@@ -13,7 +12,6 @@
             'libraries': [
                 '-L<!(pwd)/lib',
                 '-lmxnet-lnx64',
-                '-lopencv_core -lopencv_highgui -lopencv_imgproc',
                 '-lm -lstdc++'
             ],
             'cflags_cc': [
