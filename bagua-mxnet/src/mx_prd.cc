@@ -68,31 +68,6 @@ void GetImageFile(cv::Mat img, mx_float *image_data, const int channels,
     }
 };
 
-void PrintOutputResult(const std::vector<float> &data, const std::vector<std::string> &synset)
-{
-    if (data.size() != synset.size())
-    {
-        std::cerr << "Result data and synset size does not match!" << std::endl;
-    }
-
-    float best_accuracy = 0.0;
-    int best_idx = 0;
-
-    for (int i = 0; i < static_cast<int>(data.size()); i++)
-    {
-        printf("Accuracy[%d] = %.8f\n", i, data[i]);
-
-        if (data[i] > best_accuracy)
-        {
-            best_accuracy = data[i];
-            best_idx = i;
-        }
-    }
-
-    printf("Best Result: [%s] id = %d, accuracy = %.8f\n",
-           synset[best_idx].c_str(), best_idx, best_accuracy);
-}
-
 IMPL_WRAP(MPrd);
 
 MPrd::MPrd()
@@ -131,6 +106,7 @@ NAN_METHOD(MPrd::create)
 {
     Nan::HandleScope scope;
     auto self = Unwrap<MPrd>(info.This());
+    assert(info.Length()>0);
     auto params = __cxx_vec<int>(info[0]);
     const char *j = node::Buffer::Data(info[1]);
     const void *p = node::Buffer::Data(info[2]);
@@ -184,8 +160,8 @@ NAN_METHOD(MPrd::setInput)
     GetImageFile(img, image_data.data(),
                  channels, cv::Size(width, height), NULL);
 
-    int x = MXPredSetInput(self->pred_hnd, "data", image_data.data(), img_size);
-    RETURN(x);
+    MXPredSetInput(self->pred_hnd, "data", image_data.data(), img_size);
+
 }
 
 NAN_METHOD(MPrd::run)
@@ -215,8 +191,8 @@ NAN_METHOD(MPrd::run)
     // if (self->nd_hnd)
     //     MXNDListFree(self->nd_hnd);
 
-
     RETURN(__js(output));
+
 }
 
 NAN_METHOD(MPrd::close)

@@ -4,6 +4,8 @@
 *.so
 *.params
 *.caffemodel
+.vscode
+.DS_Store
 demo/tf-mnist/data/
 build/
 node_modules/

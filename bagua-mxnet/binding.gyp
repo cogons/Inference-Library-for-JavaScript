@@ -7,7 +7,8 @@
                 "src/mx_prd.cc"],
             "include_dirs": [
                 "<!(node -e \"require('nan')\")",
-                '-L<!(pwd)/include'
+                '-L<!(pwd)/include',
+                '<!(pwd)',
             ],
             'libraries': [
                 '-L<!(pwd)/lib',

@@ -1,23 +1,23 @@
 var fs = require("fs");
-var mx = require('../../bagua-mxnet/src');
-var io = require('../io')
+var mx = require('bagua-mxnet');
+var cv = require('cv').io
 
 // load essentials
-
-var image = io.loadImage("../images/dog.jpg", 3);
+console.log(cv)
+var image = cv.loadImage("../images/cat.png", 3);
 var json_file = fs.readFileSync("../../model-zoo/mxnet/inception/Inception-BN-symbol.json");
 var param_file = fs.readFileSync("../../model-zoo/mxnet/inception/Inception-BN-0126.params");
 var nd_file = fs.readFileSync("../../model-zoo/mxnet/inception/mean_224.nd");
 var params = [224,224,3]
 
-// preprocess
+// // preprocess
 
-var transformer = new io.Transformer(params);
+var transformer = new cv.Transformer(params);
 transformer.setMeanValue(Array.prototype.slice.call(nd_file, 0)); // 0 ~ 255 => 0 ~ 1.0
 var img = transformer.preprocess(image)
 
 
-// create a pridictor
+// // create a pridictor
 
 var prd = new mx.MPrd();
 
@@ -27,7 +27,7 @@ var output = prd.run();
 
 console.log(output)
 
-// process output
+// // process output
 
 var syn = loadSynset("../../model-zoo/mxnet/inception/synset.txt")
 console.log('Best Guess: ', syn[maxIndex(output)])
